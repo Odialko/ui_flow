@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uiflow/borrow_screen.dart';
+import 'package:uiflow/loan_flow/flow_manager.dart';
 class LoanRequestStepThree extends StatefulWidget {
   final Function function;
 
@@ -24,7 +25,7 @@ class _LoanRequestStepThreeState extends State<LoanRequestStepThree> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          widget.function();
+          Navigator.of(context).popUntil((route) => route.isFirst);
         },
         child: Icon(Icons.label_important),
       ),

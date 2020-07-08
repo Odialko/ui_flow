@@ -27,7 +27,15 @@ class _LoanRequestStepTwoState extends State<LoanRequestStepTwo> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          widget.function();
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FlowSelected(
+//            loanScreens: loanScreens,
+                index: 2,
+              ),
+            ),
+          );
         },
         child: Icon(Icons.label_important),
       ),
