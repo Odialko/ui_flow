@@ -3,66 +3,45 @@ import 'package:uiflow/loan_flow/loan_request_start.dart';
 import 'package:uiflow/loan_flow/loan_request_step_three.dart';
 import 'package:uiflow/loan_flow/loan_request_step_two.dart';
 
-
 class FlowSelected extends StatefulWidget {
+  final int index;
+
+  const FlowSelected({Key key, this.index}) : super(key: key);
   @override
-  _FlowSelectedState createState() => _FlowSelectedState();
+  FlowSelectedState createState() => FlowSelectedState();
 }
 
-class _FlowSelectedState extends State<FlowSelected> {
-  final loanScreens = <int, Widget>{
-    0: LoanRequestStart(),
-    1: LoanRequestStepTwo(),
-    2: LoanRequestStepThree(),
-  };
+class FlowSelectedState extends State<FlowSelected> {
 
-//  final List myList = ['viktor', 'vova', 'bob', 'max'];
-  int index = 0;
-
-//  int screen = 0;
+  final List loanScreens = [
+    LoanRequestStart(),
+    LoanRequestStepTwo(),
+    LoanRequestStepThree(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('myFlow'),
-      ),
       body: NavigationController(
         loanScreens: loanScreens,
-        onSelected: (screen) {
-          print('=========> $screen');
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => screen),
-          );
-        },
+        index: widget.index,
       ),
     );
-//    return NavigationController(loanScreens: loanScreens,);
   }
 }
 
-class NavigationController extends StatelessWidget {
-  final Map<int, Widget> loanScreens;
-  final Function onSelected;
-
-  NavigationController({this.loanScreens, this.onSelected});
+class NavigationController extends StatefulWidget {
+  final List loanScreens;
+  final int index;
+  NavigationController({Key key, this.loanScreens, this.index}) : super(key: key);
 
   @override
+  _NavigationControllerState createState() => _NavigationControllerState();
+}
+
+class _NavigationControllerState extends State<NavigationController> {
+  @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: this.loanScreens.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          onTap: () {
-            final screen = this.loanScreens[index];
-            this.onSelected(screen);
-          },
-          title: Text('test'),
-        );
-      },
-    );
-
+    return widget.loanScreens[widget.index];
   }
-
 }

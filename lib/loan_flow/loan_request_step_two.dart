@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:uiflow/loan_flow/flow_manager.dart';
 import 'package:uiflow/loan_flow/loan_request_step_three.dart';
+class LoanRequestStepTwo extends StatefulWidget {
+  final Function function;
 
-class LoanRequestStepTwo extends StatelessWidget {
-  final List loanScreens;
-  final Function(Widget) onSelected;
+  const LoanRequestStepTwo({Key key, this.function}) : super(key: key);
 
-  const LoanRequestStepTwo({Key key, this.loanScreens, this.onSelected}) : super(key: key);
+  @override
+  _LoanRequestStepTwoState createState() => _LoanRequestStepTwoState();
+}
+
+class _LoanRequestStepTwoState extends State<LoanRequestStepTwo> {
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +27,7 @@ class LoanRequestStepTwo extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-//          NavigationController(
-//              loanScreens: loanScreens,
-//              index: 2
-//          ).navigate(context);
-//          Navigator.push(
-//            context,
-//            MaterialPageRoute(builder: (context) => LoanRequestStepThree()),
-//          );
+          widget.function();
         },
         child: Icon(Icons.label_important),
       ),
