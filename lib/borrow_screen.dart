@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uiflow/loan_flow/flow_manager.dart';
 import 'package:uiflow/loan_flow/loan_request_start.dart';
 
 class BorrowScreen extends StatelessWidget {
@@ -19,7 +20,7 @@ class BorrowScreen extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => LoanRequestStart()),
+            MaterialPageRoute(builder: (context) => FlowSelected()),
           );
         },
         child: Icon(Icons.label_important),
