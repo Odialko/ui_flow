@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uiflow/loan_flow/flow_manager.dart';
-import 'package:uiflow/loan_flow/loan_request_start.dart';
+import 'package:uiflow/loan_flow/navigation_controller.dart';
 
 class BorrowScreen extends StatelessWidget {
   @override
