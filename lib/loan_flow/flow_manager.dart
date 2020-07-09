@@ -3,15 +3,30 @@ import 'package:uiflow/loan_flow/loan_request_start.dart';
 import 'package:uiflow/loan_flow/loan_request_step_three.dart';
 import 'package:uiflow/loan_flow/loan_request_step_two.dart';
 
-class FlowSelected extends StatefulWidget {
+class NavigationController extends StatefulWidget {
   final int index;
 
-  const FlowSelected({Key key, this.index}) : super(key: key);
+  const NavigationController({Key key, this.index}) : super(key: key);
+
   @override
-  FlowSelectedState createState() => FlowSelectedState();
+  _NavigationControllerState createState() => _NavigationControllerState();
 }
 
-class FlowSelectedState extends State<FlowSelected> {
+class _NavigationControllerState extends State<NavigationController> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: FlowScreens(
+        index: widget.index,
+      ),
+    );
+  }
+}
+
+class FlowScreens extends StatelessWidget {
+  final int index;
+
+  FlowScreens({Key key, this.index}) : super(key: key);
 
   final List loanScreens = [
     LoanRequestStart(),
@@ -21,27 +36,6 @@ class FlowSelectedState extends State<FlowSelected> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: NavigationController(
-        loanScreens: loanScreens,
-        index: widget.index,
-      ),
-    );
-  }
-}
-
-class NavigationController extends StatefulWidget {
-  final List loanScreens;
-  final int index;
-  NavigationController({Key key, this.loanScreens, this.index}) : super(key: key);
-
-  @override
-  _NavigationControllerState createState() => _NavigationControllerState();
-}
-
-class _NavigationControllerState extends State<NavigationController> {
-  @override
-  Widget build(BuildContext context) {
-    return widget.loanScreens[widget.index];
+    return loanScreens[index];
   }
 }
