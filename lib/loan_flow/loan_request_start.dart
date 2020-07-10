@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:uiflow/loan_flow/navigation_controller.dart';
+import 'package:uiflow/borrow_screen.dart';
+import 'package:uiflow/loan_flow/flow_manager.dart';
+import 'package:uiflow/loan_flow/loan_request_step_two.dart';
 
-class LoanRequestStart extends StatefulWidget {
-  final Function function;
+class LoanRequestStart extends StatelessWidget {
+//  final BorrowScreenNavigator navigator;
+  final Function callback;
+  const LoanRequestStart({Key key, this.callback}) : super(key: key);
 
-  const LoanRequestStart({Key key, this.function}) : super(key: key);
+//  @override
+//  _LoanRequestStartState createState() => _LoanRequestStartState();
+//}
+//
+//class _LoanRequestStartState extends State<LoanRequestStart> {
 
-  @override
-  _LoanRequestStartState createState() => _LoanRequestStartState();
-}
-
-class _LoanRequestStartState extends State<LoanRequestStart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,15 +29,7 @@ class _LoanRequestStartState extends State<LoanRequestStart> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => NavigationController(
-//            loanScreens: loanScreens,
-                index: 1,
-              ),
-            ),
-          );
+          callback(LoanRequestStepTwo());
         },
         child: Icon(Icons.label_important),
       ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class LoanRequestStepThree extends StatefulWidget {
-  final Function function;
-
-  const LoanRequestStepThree({Key key, this.function}) : super(key: key);
+  final Function callback;
+//
+  const LoanRequestStepThree({Key key, this.callback}) : super(key: key);
   @override
   _LoanRequestStepThreeState createState() => _LoanRequestStepThreeState();
 }
@@ -24,6 +24,7 @@ class _LoanRequestStepThreeState extends State<LoanRequestStepThree> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+
           Navigator.of(context).popUntil((route) => route.isFirst);
         },
         child: Icon(Icons.label_important),
