@@ -1,14 +1,6 @@
 import 'package:flutter/material.dart';
 
-class LoanRequestStepThree extends StatefulWidget {
-  final Function callback;
-//
-  const LoanRequestStepThree({Key key, this.callback}) : super(key: key);
-  @override
-  _LoanRequestStepThreeState createState() => _LoanRequestStepThreeState();
-}
-
-class _LoanRequestStepThreeState extends State<LoanRequestStepThree> {
+class LoanRequestStepThree extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

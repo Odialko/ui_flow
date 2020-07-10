@@ -1,18 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:uiflow/borrow_screen.dart';
 import 'package:uiflow/loan_flow/flow_manager.dart';
-import 'package:uiflow/loan_flow/loan_request_step_two.dart';
 
 class LoanRequestStart extends StatelessWidget {
-//  final BorrowScreenNavigator navigator;
   final Function callback;
-  const LoanRequestStart({Key key, this.callback}) : super(key: key);
-
-//  @override
-//  _LoanRequestStartState createState() => _LoanRequestStartState();
-//}
-//
-//class _LoanRequestStartState extends State<LoanRequestStart> {
+  final BorrowScreenNavigator navigator;
+  const LoanRequestStart({Key key, this.callback, this.navigator}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +21,7 @@ class LoanRequestStart extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          callback(LoanRequestStepTwo());
+          callback(EnumFlowScreens.second);
         },
         child: Icon(Icons.label_important),
       ),

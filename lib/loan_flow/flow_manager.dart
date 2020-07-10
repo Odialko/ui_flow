@@ -3,7 +3,12 @@ import 'package:uiflow/loan_flow/loan_request_start.dart';
 import 'package:uiflow/loan_flow/loan_request_step_three.dart';
 import 'package:uiflow/loan_flow/loan_request_step_two.dart';
 
+enum EnumFlowScreens {start, second, third}
+
 class FlowScreens extends StatefulWidget {
+  final BorrowScreenNavigator navigator;
+
+  const FlowScreens({Key key, this.navigator}) : super(key: key);
   @override
   _FlowScreensState createState() => _FlowScreensState();
 }
@@ -18,63 +23,49 @@ class _FlowScreensState extends State<FlowScreens> {
     currentPage = LoanRequestStart(callback: this.callback);
   }
 
-  void callback(Widget nextPage) {
-    if (nextPage.toString() == LoanRequestStepTwo().toString()) {
-      setState(() {
-        this.currentPage = LoanRequestStepTwo(callback: this.callback,);
-      });
-    } else if (nextPage.toString() == LoanRequestStepThree().toString()) {
-      setState(() {
-        this.currentPage = LoanRequestStepThree(callback: this.callback);
-      });
-    } else {
-      setState(() {
+  void callback(nextPage) {
+    setState(() {
+      if (nextPage == EnumFlowScreens.second) {
+        this.currentPage = LoanRequestStepTwo(callback: this.callback);
+      } else if (nextPage == EnumFlowScreens.third) {
+        this.currentPage = LoanRequestStepThree();
+      } else {
         this.currentPage = LoanRequestStart(callback: this.callback);
-      });
-    }
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: currentPage
-    );
+    return Scaffold(body: currentPage);
   }
 }
 
+class _AndroidNav extends BorrowScreenNavigator {
+  @override
+  void toLoanRequestStartScreen(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => LoanRequestStart()),
+    );
+  }
 
+  @override
+  void toLoanRequestStepTwo(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => LoanRequestStepTwo()),
+    );
+  }
 
-
-
-
-
-//class _AndroidNav extends BorrowScreenNavigator {
-//
-//  @override
-//  void toLoanRequestStartScreen(BuildContext context) {
-//    Navigator.push(
-//      context,
-//      MaterialPageRoute(builder: (context) => LoanRequestStart()),
-//    );
-//  }
-//
-//  @override
-//  void toLoanRequestStepTwo(BuildContext context) {
-//    Navigator.push(
-//      context,
-//      MaterialPageRoute(builder: (context) => LoanRequestStepTwo()),
-//    );
-//  }
-//
-//  @override
-//  void toLoanRequestStepThree(BuildContext context) {
-//    Navigator.push(
-//      context,
-//      MaterialPageRoute(builder: (context) => LoanRequestStepThree()),
-//    );
-//  }
-//}
-
+  @override
+  void toLoanRequestStepThree(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => LoanRequestStepThree()),
+    );
+  }
+}
 
 abstract class BorrowScreenNavigator {
   void toLoanRequestStartScreen(BuildContext context);
