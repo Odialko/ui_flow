@@ -28,13 +28,13 @@ class _FlowScreensState extends State<FlowScreens> {
 
   void callback(nextPage, {String amount = ''}) {
     setState(() {
-      if (nextPage == EnumFlowScreens.second) {
-        this.currentPage = LoanRequestStepTwo(callback: this.callback, amount: amount);
-      } else if (nextPage == EnumFlowScreens.third) {
-        this.currentPage = LoanRequestStepThree();
-      } else {
-        this.currentPage = LoanRequestStart(callback: this.callback);
-      }
+    if (nextPage == EnumFlowScreens.second) {
+      widget.navigator.toLoanRequestStepTwo(context, this.callback, amount);
+    } else if (nextPage == EnumFlowScreens.third) {
+      widget.navigator.toLoanRequestStepThree(context, amount);
+    } else {
+      this.currentPage = LoanRequestStart(callback: this.callback);
+    }
     });
   }
 
@@ -51,34 +51,25 @@ class _FlowScreensState extends State<FlowScreens> {
   }
 }
 
-class _AndroidNav extends BorrowScreenNavigator {
+class AndroidNav extends BorrowScreenNavigator {
   @override
-  void toLoanRequestStartScreen(BuildContext context) {
+  void toLoanRequestStepTwo(BuildContext context, callback, String amount) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => LoanRequestStart()),
+      MaterialPageRoute(builder: (context) => LoanRequestStepTwo(callback: callback, amount: amount,)),
     );
   }
 
   @override
-  void toLoanRequestStepTwo(BuildContext context) {
+  void toLoanRequestStepThree(BuildContext context, String amount) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => LoanRequestStepTwo()),
-    );
-  }
-
-  @override
-  void toLoanRequestStepThree(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => LoanRequestStepThree()),
+      MaterialPageRoute(builder: (context) => LoanRequestStepThree(amount: amount)),
     );
   }
 }
 
 abstract class BorrowScreenNavigator {
-  void toLoanRequestStartScreen(BuildContext context);
-  void toLoanRequestStepTwo(BuildContext context);
-  void toLoanRequestStepThree(BuildContext context);
+  void toLoanRequestStepTwo(BuildContext context, callback, String amount);
+  void toLoanRequestStepThree(BuildContext context, String amount);
 }

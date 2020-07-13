@@ -19,7 +19,7 @@ class BorrowScreen extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => FlowScreens()),
+            MaterialPageRoute(builder: (context) => FlowScreens(navigator: AndroidNav(),)),
           );
         },
         child: Icon(Icons.label_important),
