@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uiflow/borrow_screen.dart';
 import 'package:uiflow/loan_flow/flow_manager.dart';
 
 class LoanRequestStepTwo extends StatelessWidget {
@@ -28,7 +29,6 @@ class LoanRequestStepTwo extends StatelessWidget {
           ),
         ],
       ),
-//      body: Text(amount.toString()),
     );
   }
 }

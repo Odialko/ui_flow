@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:uiflow/loan_flow/flow_manager.dart';
 
 class LoanRequestStepThree extends StatelessWidget {
   final String amount;

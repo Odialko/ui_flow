@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx/mobx.dart';
-import 'package:uiflow/loan_flow/borrow_store.dart';
+import 'package:uiflow/borrow_screen.dart';
 import 'package:uiflow/loan_flow/flow_manager.dart';
-import 'package:provider/provider.dart';
 
 class LoanRequestStart extends StatefulWidget {
   final Function callback;

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:uiflow/loan_flow/flow_manager.dart';
+import 'package:uiflow/loan_flow/loan_request_step_three.dart';
+import 'package:uiflow/loan_flow/loan_request_step_two.dart';
 
 class BorrowScreen extends StatelessWidget {
   @override
@@ -26,4 +28,26 @@ class BorrowScreen extends StatelessWidget {
       ),
     );
   }
+}
+class AndroidNav extends BorrowScreenNavigator {
+  @override
+  void toLoanRequestStepTwo(BuildContext context, callback, String amount) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => LoanRequestStepTwo(callback: callback, amount: amount,)),
+    );
+  }
+
+  @override
+  void toLoanRequestStepThree(BuildContext context, String amount) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => LoanRequestStepThree(amount: amount)),
+    );
+  }
+}
+
+abstract class BorrowScreenNavigator {
+  void toLoanRequestStepTwo(BuildContext context, callback, String amount);
+  void toLoanRequestStepThree(BuildContext context, String amount);
 }
