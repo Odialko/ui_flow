@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:uiflow/loan_flow/bank_account_repository.dart';
+import 'package:uiflow/loan_flow/borrow_store.dart';
 import 'package:uiflow/loan_flow/loan_request_start.dart';
 import 'package:uiflow/loan_flow/loan_request_step_three.dart';
 import 'package:uiflow/loan_flow/loan_request_step_two.dart';
+import 'package:provider/provider.dart';
 
 enum EnumFlowScreens {start, second, third}
 
@@ -23,10 +26,10 @@ class _FlowScreensState extends State<FlowScreens> {
     currentPage = LoanRequestStart(callback: this.callback);
   }
 
-  void callback(nextPage) {
+  void callback(nextPage, {String amount = ''}) {
     setState(() {
       if (nextPage == EnumFlowScreens.second) {
-        this.currentPage = LoanRequestStepTwo(callback: this.callback);
+        this.currentPage = LoanRequestStepTwo(callback: this.callback, amount: amount);
       } else if (nextPage == EnumFlowScreens.third) {
         this.currentPage = LoanRequestStepThree();
       } else {
@@ -37,7 +40,14 @@ class _FlowScreensState extends State<FlowScreens> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: currentPage);
+    return Provider(
+      create: (_) => BorrowStore(
+        bankAccountRepository: BankAccountRepository(),
+      ),
+      child: Scaffold(
+          body: currentPage
+      ),
+    );
   }
 }
 
