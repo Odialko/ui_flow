@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:uiflow/borrow_screen.dart';
-import 'package:uiflow/loan_flow/flow_manager.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:uiflow/loan_flow/borrow_store.dart';
+import 'package:provider/provider.dart';
 
 class LoanRequestStart extends StatefulWidget {
   final Function callback;
-  final BorrowScreenNavigator navigator;
 
-  const LoanRequestStart({Key key, this.navigator, this.callback})
+  const LoanRequestStart({Key key, this.callback})
       : super(key: key);
 
   _LoanRequestStartState createState() => _LoanRequestStartState();
@@ -17,8 +16,25 @@ class _LoanRequestStartState extends State<LoanRequestStart> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController myAmount = TextEditingController();
 
+  BorrowStore store;
+
+//  @override
+//  void initState() {
+//    super.initState();
+//
+//  }
+
+//  @override
+//  void dispose() {
+//    store.dispose();
+//    super.dispose();
+//  }
+
   @override
   Widget build(BuildContext context) {
+    store = Provider.of<BorrowStore>(context);
+    store.setupValidations();
+
     return Scaffold(
       appBar: AppBar(title: const Text('Start')),
       body: Column(
@@ -28,32 +44,34 @@ class _LoanRequestStartState extends State<LoanRequestStart> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                TextFormField(
-                  controller: myAmount,
-                  inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                  decoration: const InputDecoration(
-                    hintText: 'Amount',
+                Observer(
+                  builder: (_) => TextField(
+                    onChanged: (value) => store.amount = value,
+                    decoration: InputDecoration(
+                        labelText: 'Amount',
+                        hintText: 'Pick a Amount',
+                        errorText: store.error.amount),
                   ),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Please enter some Amount';
-                    }
-                    return null;
+                ),
+                RaisedButton(
+                  child: const Text('Go ahead'),
+                  onPressed: () {
+                    store.validateStepStartAndGoToSecond(context, widget.callback);
                   },
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: RaisedButton(
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        widget.callback(EnumFlowScreens.second,
-                            amount: myAmount.text);
-                        // Process data.
-                      }
-                    },
-                    child: Text('Submit'),
-                  ),
-                ),
+//                Observer(
+//                  builder: (context) => Column(
+//                    children: [
+//                      if (future.status == FutureStatus.fulfilled)
+//                        Text(
+//                          future.result.loanLimit.toString(),
+//                          style: TextStyle(
+//                            fontSize: 22.0
+//                          ),
+//                        )
+//                    ],
+//                  ),
+//                )
               ],
             ),
           ),

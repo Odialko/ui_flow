@@ -14,7 +14,7 @@ class BankAccountRepository {
             notes: "account notes",
             overdraft: 560000,
             loan: 0,
-            loanLimit: 0),
+            loanLimit: 1000),
       )
           .toList(),
     );
@@ -29,7 +29,7 @@ class BankAccountRepository {
           notes: "account notes",
           overdraft: 560000,
           loan: 0,
-          loanLimit: 0),
+          loanLimit: 1000),
     );
   }
 }

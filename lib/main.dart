@@ -14,16 +14,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-//
-//final counterProvider = StateProvider((ref) => 0);
-//final titleProvider = Provider((ref) => 'Hello Viktor, push the button');
-//
-//void main() {
-//  runApp(
-//    ProviderScope(
-//      child: MaterialApp(
-//        home: BorrowScreen(),
-//      ),
-//    ),
-//  );
-//}

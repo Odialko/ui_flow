@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:uiflow/loan_flow/flow_manager.dart';
-import 'package:uiflow/loan_flow/loan_request_step_three.dart';
-import 'package:uiflow/loan_flow/loan_request_step_two.dart';
 
 class BorrowScreen extends StatelessWidget {
   @override
@@ -21,7 +19,7 @@ class BorrowScreen extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => FlowScreens(navigator: AndroidNav(),)),
+            MaterialPageRoute(builder: (context) => FlowScreens()),
           );
         },
         child: Icon(Icons.label_important),
@@ -29,25 +27,25 @@ class BorrowScreen extends StatelessWidget {
     );
   }
 }
-class AndroidNav extends BorrowScreenNavigator {
-  @override
-  void toLoanRequestStepTwo(BuildContext context, callback, String amount) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => LoanRequestStepTwo(callback: callback, amount: amount,)),
-    );
-  }
-
-  @override
-  void toLoanRequestStepThree(BuildContext context, String amount) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => LoanRequestStepThree(amount: amount)),
-    );
-  }
-}
-
-abstract class BorrowScreenNavigator {
-  void toLoanRequestStepTwo(BuildContext context, callback, String amount);
-  void toLoanRequestStepThree(BuildContext context, String amount);
-}
+//class AndroidNav extends BorrowScreenNavigator {
+//  @override
+//  void toLoanRequestStepTwo(BuildContext context, callback) {
+//    Navigator.push(
+//      context,
+//      MaterialPageRoute(builder: (context) => LoanRequestStepTwo(callback: callback)),
+//    );
+//  }
+//
+//  @override
+//  void toLoanRequestStepThree(BuildContext context) {
+//    Navigator.push(
+//      context,
+//      MaterialPageRoute(builder: (context) => LoanRequestStepThree()),
+//    );
+//  }
+//}
+//
+//abstract class BorrowScreenNavigator {
+//  void toLoanRequestStepTwo(BuildContext context, callback);
+//  void toLoanRequestStepThree(BuildContext context);
+//}
