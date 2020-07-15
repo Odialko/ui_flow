@@ -9,22 +9,22 @@ part 'borrow_store.g.dart';
 class BorrowStore = _BorrowStore with _$BorrowStore;
 
 abstract class _BorrowStore with Store {
-//  _BorrowStore({@required this.bankAccountRepository})
-//      : assert(bankAccountRepository != null,
-//  "'bankAccountRepository' cannot be null for BorrowStore");
-//
-//  final BankAccountRepository bankAccountRepository;
-//
-//  @observable
-//  ObservableFuture<BankAccount> bankAccountLoan;
-//
-//  @action
-//  ObservableFuture<BankAccount> getBankAccountLoan() {
-//    bankAccountLoan = ObservableFuture<BankAccount>(
-//        bankAccountRepository.getAccountLoan("100"));
-//    return bankAccountLoan;
-//  }
-//
+  _BorrowStore({@required this.bankAccountRepository})
+      : assert(bankAccountRepository != null,
+  "'bankAccountRepository' cannot be null for BorrowStore");
+
+  final BankAccountRepository bankAccountRepository;
+
+  @observable
+  ObservableFuture<BankAccount> bankAccountLoan;
+
+  @action
+  ObservableFuture<BankAccount> getBankAccountLoan() {
+    bankAccountLoan = ObservableFuture<BankAccount>(
+        bankAccountRepository.getAccountLoan("100"));
+    return bankAccountLoan;
+  }
+
 
 
   ///----------------------------------------------------------------
@@ -47,7 +47,9 @@ abstract class _BorrowStore with Store {
 
   @action
   Future validateAmount(String value) async {
-    if (value.isEmpty || value == null) {
+    if (value.isEmpty
+        || value == null
+        || double.parse(value) > bankAccountLoan.result.loanLimit) {
       error.amount = 'Cannot be blank';
       return;
     } else {

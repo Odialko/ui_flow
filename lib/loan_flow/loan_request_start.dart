@@ -33,6 +33,7 @@ class _LoanRequestStartState extends State<LoanRequestStart> {
   @override
   Widget build(BuildContext context) {
     store = Provider.of<BorrowStore>(context);
+    store.getBankAccountLoan();
     store.setupValidations();
 
     return Scaffold(

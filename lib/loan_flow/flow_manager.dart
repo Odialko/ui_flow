@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:uiflow/borrow_screen.dart';
 import 'package:uiflow/loan_flow/bank_account_repository.dart';
 import 'package:uiflow/loan_flow/borrow_store.dart';
 import 'package:uiflow/loan_flow/loan_request_start.dart';
@@ -43,7 +42,7 @@ class _FlowScreensState extends State<FlowScreens> {
 //    return currentPage;
     return Provider<BorrowStore>(
       create: (_) => BorrowStore(
-//        bankAccountRepository: BankAccountRepository(),
+        bankAccountRepository: BankAccountRepository(),
       ),
       child: Scaffold(body: currentPage),
     );
