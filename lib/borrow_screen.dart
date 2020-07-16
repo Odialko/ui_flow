@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:uiflow/loan_flow/flow_manager.dart';
+import 'package:auto_route/auto_route.dart';
+import 'router.gr.dart';
 
 class BorrowScreen extends StatelessWidget {
   @override
@@ -17,10 +18,11 @@ class BorrowScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => FlowScreens()),
-          );
+          ExtendedNavigator.of(context).pushNamed(Routes.loanFlow);
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => LoanFlow()),
+          // );
         },
         child: Icon(Icons.label_important),
       ),

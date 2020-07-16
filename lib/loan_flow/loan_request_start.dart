@@ -2,39 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:uiflow/loan_flow/borrow_store.dart';
 import 'package:provider/provider.dart';
+import 'loan_flow.dart';
 
 class LoanRequestStart extends StatefulWidget {
-  final Function callback;
-
-  const LoanRequestStart({Key key, this.callback})
-      : super(key: key);
-
   _LoanRequestStartState createState() => _LoanRequestStartState();
 }
 
 class _LoanRequestStartState extends State<LoanRequestStart> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController myAmount = TextEditingController();
+  TextEditingController teController = TextEditingController();
 
-  BorrowStore store;
-
-//  @override
-//  void initState() {
-//    super.initState();
-//
-//  }
-
-//  @override
-//  void dispose() {
-//    store.dispose();
-//    super.dispose();
-//  }
-
+  // BorrowStore store;
   @override
   Widget build(BuildContext context) {
-    store = Provider.of<BorrowStore>(context);
-    store.getBankAccountLoan();
-    store.setupValidations();
+    // store = Provider.of<BorrowStore>(context);
+    // store.getBankAccountLoan();
+    // store.setupValidations();
+
+    final flowManager = Provider.of<LoanFlowManager>(context);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Start')),
@@ -47,17 +32,21 @@ class _LoanRequestStartState extends State<LoanRequestStart> {
               children: <Widget>[
                 Observer(
                   builder: (_) => TextField(
-                    onChanged: (value) => store.amount = value,
+                    controller: teController,
+                    // onChanged: (value) => store.amount = value,
                     decoration: InputDecoration(
-                        labelText: 'Amount',
-                        hintText: 'Pick a Amount',
-                        errorText: store.error.amount),
+                      labelText: 'Amount',
+                      hintText: 'Pick a Amount',
+                      // errorText: store.error.amount,
+                    ),
                   ),
                 ),
                 RaisedButton(
-                  child: const Text('Go ahead'),
+                  child: const Text('Next Step'),
                   onPressed: () {
-                    store.validateStepStartAndGoToSecond(context, widget.callback);
+                    final step = flowManager.createStep1(teController.text);
+                    // FlowStep<String>(id: "1", data: teController.text);
+                    flowManager.completeStep(step: step);
                   },
                 ),
 //                Observer(
