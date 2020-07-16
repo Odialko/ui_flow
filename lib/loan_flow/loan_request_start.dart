@@ -4,11 +4,6 @@ import 'package:uiflow/loan_flow/borrow_store.dart';
 import 'package:provider/provider.dart';
 
 class LoanRequestStart extends StatefulWidget {
-  final Function callback;
-
-  const LoanRequestStart({Key key, this.callback})
-      : super(key: key);
-
   _LoanRequestStartState createState() => _LoanRequestStartState();
 }
 
@@ -57,7 +52,7 @@ class _LoanRequestStartState extends State<LoanRequestStart> {
                 RaisedButton(
                   child: const Text('Go ahead'),
                   onPressed: () {
-                    store.validateStepStartAndGoToSecond(context, widget.callback);
+                    store.validateStepStartAndGoToSecond();
                   },
                 ),
 //                Observer(

@@ -9,6 +9,14 @@ part of 'borrow_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$BorrowStore on _BorrowStore, Store {
+  Computed<EnumFlowScreens> _$lastCompletedScreenComputed;
+
+  @override
+  EnumFlowScreens get lastCompletedScreen => (_$lastCompletedScreenComputed ??=
+          Computed<EnumFlowScreens>(() => super.lastCompletedScreen,
+              name: '_BorrowStore.lastCompletedScreen'))
+      .value;
+
   final _$bankAccountLoanAtom = Atom(name: '_BorrowStore.bankAccountLoan');
 
   @override
@@ -21,6 +29,23 @@ mixin _$BorrowStore on _BorrowStore, Store {
   set bankAccountLoan(ObservableFuture<BankAccount> value) {
     _$bankAccountLoanAtom.reportWrite(value, super.bankAccountLoan, () {
       super.bankAccountLoan = value;
+    });
+  }
+
+  final _$_lastCompletedScreenAtom =
+      Atom(name: '_BorrowStore._lastCompletedScreen');
+
+  @override
+  EnumFlowScreens get _lastCompletedScreen {
+    _$_lastCompletedScreenAtom.reportRead();
+    return super._lastCompletedScreen;
+  }
+
+  @override
+  set _lastCompletedScreen(EnumFlowScreens value) {
+    _$_lastCompletedScreenAtom.reportWrite(value, super._lastCompletedScreen,
+        () {
+      super._lastCompletedScreen = value;
     });
   }
 
@@ -84,11 +109,23 @@ mixin _$BorrowStore on _BorrowStore, Store {
   }
 
   @override
+  void complete(EnumFlowScreens screen) {
+    final _$actionInfo = _$_BorrowStoreActionController.startAction(
+        name: '_BorrowStore.complete');
+    try {
+      return super.complete(screen);
+    } finally {
+      _$_BorrowStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 bankAccountLoan: ${bankAccountLoan},
 amount: ${amount},
-stepTwo: ${stepTwo}
+stepTwo: ${stepTwo},
+lastCompletedScreen: ${lastCompletedScreen}
     ''';
   }
 }

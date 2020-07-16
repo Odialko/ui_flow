@@ -11,12 +11,18 @@ class BorrowStore = _BorrowStore with _$BorrowStore;
 abstract class _BorrowStore with Store {
   _BorrowStore({@required this.bankAccountRepository})
       : assert(bankAccountRepository != null,
-  "'bankAccountRepository' cannot be null for BorrowStore");
+            "'bankAccountRepository' cannot be null for BorrowStore");
 
   final BankAccountRepository bankAccountRepository;
 
   @observable
   ObservableFuture<BankAccount> bankAccountLoan;
+
+  @observable
+  EnumFlowScreens _lastCompletedScreen;
+
+  @computed
+  EnumFlowScreens get lastCompletedScreen => _lastCompletedScreen;
 
   @action
   ObservableFuture<BankAccount> getBankAccountLoan() {
@@ -25,7 +31,10 @@ abstract class _BorrowStore with Store {
     return bankAccountLoan;
   }
 
-
+  @action
+  void complete(EnumFlowScreens screen) {
+    _lastCompletedScreen = screen;
+  }
 
   ///----------------------------------------------------------------
   final BorrowErrorState error = BorrowErrorState();
@@ -47,15 +56,16 @@ abstract class _BorrowStore with Store {
 
   @action
   Future validateAmount(String value) async {
-    if (value.isEmpty
-        || value == null
-        || double.parse(value) > bankAccountLoan.result.loanLimit) {
+    if (value.isEmpty ||
+        value == null ||
+        double.parse(value) > bankAccountLoan.result.loanLimit) {
       error.amount = 'Cannot be blank';
       return;
     } else {
       error.amount = null;
     }
   }
+
   @action
   Future validateStepTwo(String value) async {
     if (value.isEmpty || value == null) {
@@ -72,16 +82,17 @@ abstract class _BorrowStore with Store {
     }
   }
 
-  validateStepStartAndGoToSecond(context, callback) {
+  validateStepStartAndGoToSecond() {
     validateAmount(amount);
-    if(amount != '') {
-      callback(EnumFlowScreens.second);
+    if (amount != '') {
+      _lastCompletedScreen = EnumFlowScreens.start;
     }
   }
-  validateStepTwoAndGoToThree(context, callback) {
+
+  validateStepTwoAndGoToThree() {
     validateStepTwo(stepTwo);
-    if(stepTwo != '') {
-      callback(EnumFlowScreens.third);
+    if (stepTwo != '') {
+      _lastCompletedScreen = EnumFlowScreens.second;
     }
   }
 }
