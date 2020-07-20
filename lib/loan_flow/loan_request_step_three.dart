@@ -8,10 +8,7 @@ class LoanRequestStepThree extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BorrowStore store;
-
-    store = Provider.of<BorrowStore>(context);
-    store.setupValidations();
+    BorrowStore store = Provider.of<BorrowStore>(context);
     final currentScreenIndex = store.currentScreenIndex;
 
     return Scaffold(
@@ -23,8 +20,8 @@ class LoanRequestStepThree extends StatelessWidget {
           onPressed: () {
             currentScreenIndex == '0'
                 ? Navigator.of(context).popUntil((route) => route.isFirst)
-                : store.completeCurrentAndBack(currentScreen: currentScreenIndex,
-                previousScreen: previousScreen(currentScreenIndex),
+                : store.completeScreen(currentScreen: currentScreenIndex,
+                nextScreen: previousScreen(currentScreenIndex),
                 screenId: screenId
             );
           },
@@ -66,6 +63,7 @@ class LoanRequestStepThree extends StatelessWidget {
       ),
     );
   }
+
   String previousScreen(String currentScreenIndex) {
     return (int.parse(currentScreenIndex) - 1).toString();
   }

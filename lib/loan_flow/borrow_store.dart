@@ -28,7 +28,8 @@ abstract class _BorrowStore with Store {
   @observable
   String currentScreenIndex = '0';
 
-  void set currentScreen(String screenIndex) => currentScreenIndex = screenIndex;
+  void set currentScreen(String screenIndex) =>
+      currentScreenIndex = screenIndex;
 
   ///----------------------------------------------------------------
   final BorrowErrorState error = BorrowErrorState();
@@ -50,10 +51,11 @@ abstract class _BorrowStore with Store {
 
   @action
   Future validateAmount(String value) async {
-    if (value.isEmpty ||
-        value == null ||
-        double.parse(value) > bankAccountLoan.result.loanLimit) {
+    if (value.isEmpty || value == null) {
       error.amount = 'Cannot be blank';
+      return;
+    } else if (double.parse(value) > bankAccountLoan.result.loanLimit) {
+      error.amount = 'Your limit is: ${bankAccountLoan.result.loanLimit}';
       return;
     } else {
       error.amount = null;
@@ -88,26 +90,12 @@ abstract class _BorrowStore with Store {
           validateStepTwo(stepTwo);
         }
         break;
+      default:
+        break;
     }
     if (error.amount == null && error.stepTwo == null) {
       currentScreenIndex = nextScreen;
     }
-  }
-
-  completeCurrentAndBack({String currentScreen, String previousScreen, String screenId}) {
-//    switch (screenId) {
-//      case '0':
-//        {
-//          amount = '';
-//        }
-//        break;
-//      case '1':
-//        {
-//          stepTwo = '';
-//        }
-//        break;
-//    }
-    currentScreenIndex = previousScreen;
   }
 }
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:uiflow/loan_flow/flow_manager.dart';
+import 'package:uiflow/loan_flow/display_flow_screens.dart';
 
 class BorrowScreen extends StatelessWidget {
   @override
@@ -22,7 +22,7 @@ class BorrowScreen extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ShowPage()),
+            MaterialPageRoute(builder: (context) => DisplayFlowScreens()),
           );
         },
         child: Icon(Icons.label_important),

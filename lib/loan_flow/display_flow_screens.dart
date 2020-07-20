@@ -7,28 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:uiflow/loan_flow/loan_request_step_three.dart';
 import 'package:uiflow/loan_flow/loan_request_step_two.dart';
 
-class FlowScreens extends StatelessWidget {
-  final flowScreens;
-
-  const FlowScreens({Key key, this.flowScreens}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    BorrowStore store;
-
-    store = Provider.of<BorrowStore>(context);
-    store.getBankAccountLoan();
-    store.setupValidations();
-
-    return Observer(
-      builder: (_) => Container(
-        child: flowScreens[store.currentScreenIndex],
-      ),
-    );
-  }
-}
-
-class ShowPage extends StatelessWidget {
+class DisplayFlowScreens extends StatelessWidget {
   final Map<String, Widget> screens = {
     '0': LoanRequestStart(),
     '1': LoanRequestStepTwo(),
@@ -55,3 +34,25 @@ class ShowPage extends StatelessWidget {
     );
   }
 }
+
+class FlowScreens extends StatelessWidget {
+  final flowScreens;
+
+  const FlowScreens({Key key, this.flowScreens}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    BorrowStore store;
+
+    store = Provider.of<BorrowStore>(context);
+    store.getBankAccountLoan();
+    store.setupValidations();
+
+    return Observer(
+      builder: (_) => Container(
+        child: flowScreens[store.currentScreenIndex],
+      ),
+    );
+  }
+}
+

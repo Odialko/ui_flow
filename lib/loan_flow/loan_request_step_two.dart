@@ -13,10 +13,7 @@ class _LoanRequestStepTwoState extends State<LoanRequestStepTwo> {
 
   @override
   Widget build(BuildContext context) {
-    BorrowStore store;
-    store = Provider.of<BorrowStore>(context);
-    store.setupValidations();
-
+    BorrowStore store = Provider.of<BorrowStore>(context);
     final currentScreenIndex = store.currentScreenIndex;
 
     if (store.stepTwo != null && store.stepTwo != '') {
@@ -34,10 +31,10 @@ class _LoanRequestStepTwoState extends State<LoanRequestStepTwo> {
           onPressed: () {
             currentScreenIndex == '0'
                 ? Navigator.of(context).popUntil((route) => route.isFirst)
-                : store.completeCurrentAndBack(currentScreen: currentScreenIndex,
-                previousScreen: previousScreen(currentScreenIndex),
-                screenId: screenId
-            );
+                : store.completeScreen(
+                    currentScreen: currentScreenIndex,
+                    nextScreen: previousScreen(currentScreenIndex),
+                    screenId: screenId);
           },
         ),
       ),
@@ -62,14 +59,10 @@ class _LoanRequestStepTwoState extends State<LoanRequestStepTwo> {
             RaisedButton(
               child: const Text('Go to ...'),
               onPressed: () {
-                print('page 2 currentScreenIndex ${currentScreenIndex}');
-                print('page 2 nextScreen ${nextScreen(currentScreenIndex)}');
-                print('page 2 screenId ${screenId}');
                 store.completeScreen(
                     currentScreen: currentScreenIndex,
                     nextScreen: nextScreen(currentScreenIndex),
                     screenId: screenId);
-
               },
             ),
           ],
@@ -77,9 +70,11 @@ class _LoanRequestStepTwoState extends State<LoanRequestStepTwo> {
       ),
     );
   }
+
   String nextScreen(String currentScreenIndex) {
     return (int.parse(currentScreenIndex) + 1).toString();
   }
+
   String previousScreen(String currentScreenIndex) {
     return (int.parse(currentScreenIndex) - 1).toString();
   }

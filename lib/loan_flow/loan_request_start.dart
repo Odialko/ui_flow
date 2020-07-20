@@ -13,18 +13,15 @@ class _LoanRequestStartState extends State<LoanRequestStart> {
 
   @override
   Widget build(BuildContext context) {
-    BorrowStore store;
-
-    store = Provider.of<BorrowStore>(context);
-    store.getBankAccountLoan();
-    store.setupValidations();
-
+    BorrowStore store = Provider.of<BorrowStore>(context);
     final currentScreenIndex = store.currentScreenIndex;
+
     if (store.amount != null && store.amount != '') {
       setState(() {
         myAmount.text = store.amount;
       });
     }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Step Start'),
@@ -34,9 +31,9 @@ class _LoanRequestStartState extends State<LoanRequestStart> {
           onPressed: () {
             currentScreenIndex == '0'
                 ? Navigator.of(context).popUntil((route) => route.isFirst)
-                : store.completeCurrentAndBack(
+                : store.completeScreen(
                     currentScreen: currentScreenIndex,
-                    previousScreen: previousScreen(currentScreenIndex),
+                    nextScreen: previousScreen(currentScreenIndex),
                     screenId: screenId);
           },
         ),
@@ -60,9 +57,6 @@ class _LoanRequestStartState extends State<LoanRequestStart> {
               RaisedButton(
                 child: const Text('Go ahead'),
                 onPressed: () {
-                  print('currentScreenIndex ${currentScreenIndex}');
-                  print('nextScreen ${nextScreen(currentScreenIndex)}');
-                  print('screenId ${screenId}');
                   store.completeScreen(
                       currentScreen: currentScreenIndex,
                       nextScreen: nextScreen(currentScreenIndex),
