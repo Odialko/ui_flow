@@ -11,29 +11,42 @@ class LoanRequestStepThree extends StatelessWidget {
     store.setupValidations();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Flow')),
-      body: Observer(
-        builder: (_) => Column(
-          children: [
-            Center(
-              child: Text(
-                'This is LoanRequestStepThree an stepOne is: ${store.amount}',
-                style: TextStyle(
-                  fontSize: 32.0,
-                  fontWeight: FontWeight.w600,
+      appBar: AppBar(
+        title: const Text('Flow'),
+        leading: IconButton(
+          tooltip: 'Previous choice',
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            store.toPreviousScreen(currentScreen: '2', nextScreen: '1');
+          },
+        ),
+      ),
+      body: Container(
+        padding: EdgeInsets.all(16.0),
+        child: Observer(
+          builder: (_) => Column(
+            children: [
+              Center(
+                child: Text(
+                  'This is LoanRequestStepThree an stepOne is: ${store.amount}',
+                  style: TextStyle(
+                    fontSize: 26.0,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
-            ),
-            Center(
-              child: Text(
-                'This is LoanRequestStepThree an stepTwo is: ${store.stepTwo}',
-                style: TextStyle(
-                  fontSize: 32.0,
-                  fontWeight: FontWeight.w600,
+              Divider(),
+              Center(
+                child: Text(
+                  'This is LoanRequestStepThree an stepTwo is: ${store.stepTwo}',
+                  style: TextStyle(
+                    fontSize: 26.0,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

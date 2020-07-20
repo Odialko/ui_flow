@@ -8,47 +8,57 @@ class LoanRequestStart extends StatefulWidget {
 }
 
 class _LoanRequestStartState extends State<LoanRequestStart> {
-  final _formKey = GlobalKey<FormState>();
+//  final _formKey = GlobalKey<FormState>();
   TextEditingController myAmount = TextEditingController();
-
   BorrowStore store;
 
   @override
   Widget build(BuildContext context) {
-    const String nexScreen = '1';
-
     store = Provider.of<BorrowStore>(context);
     store.getBankAccountLoan();
     store.setupValidations();
 
+    if (store.amount != null && store.amount != '') {
+      setState(() {
+        myAmount.text = store.amount;
+      });
+    }
     return Scaffold(
-      appBar: AppBar(title: const Text('Start')),
-      body: Column(
-        children: [
-          Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Observer(
-                  builder: (_) => TextField(
-                    onChanged: (value) => store.amount = value,
-                    decoration: InputDecoration(
-                        labelText: 'Amount',
-                        hintText: 'Pick a Amount',
-                        errorText: store.error.amount),
-                  ),
+      appBar: AppBar(
+        title: const Text('Start'),
+        leading: IconButton(
+          tooltip: 'Previous choice',
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).popUntil((route) => route.isFirst);
+          },
+        ),
+      ),
+      body: Container(
+        padding: EdgeInsets.all(16.0),
+        child: Form(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Observer(
+                builder: (_) => TextField(
+                  controller: myAmount,
+                  onChanged: (value) => store.amount = value,
+                  decoration: InputDecoration(
+                      labelText: 'Amount',
+                      hintText: 'Pick a Amount',
+                      errorText: store.error.amount),
                 ),
-                RaisedButton(
-                  child: const Text('Go ahead'),
-                  onPressed: () {
-                    store.completeScreen(currentScreen: '0', nextScreen: '1');
-                  },
-                ),
-              ],
-            ),
+              ),
+              RaisedButton(
+                child: const Text('Go ahead'),
+                onPressed: () {
+                  store.completeScreen(currentScreen: '0', nextScreen: '1');
+                },
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

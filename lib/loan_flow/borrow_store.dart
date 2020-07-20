@@ -10,7 +10,7 @@ class BorrowStore = _BorrowStore with _$BorrowStore;
 abstract class _BorrowStore with Store {
   _BorrowStore({@required this.bankAccountRepository})
       : assert(bankAccountRepository != null,
-  "'bankAccountRepository' cannot be null for BorrowStore");
+            "'bankAccountRepository' cannot be null for BorrowStore");
 
   final BankAccountRepository bankAccountRepository;
 
@@ -29,8 +29,6 @@ abstract class _BorrowStore with Store {
   String currentPageId = '0';
 
   void set currentPage(String pageId) => currentPageId = pageId;
-
-
 
   ///----------------------------------------------------------------
   final BorrowErrorState error = BorrowErrorState();
@@ -52,15 +50,16 @@ abstract class _BorrowStore with Store {
 
   @action
   Future validateAmount(String value) async {
-    if (value.isEmpty
-        || value == null
-        || double.parse(value) > bankAccountLoan.result.loanLimit) {
+    if (value.isEmpty ||
+        value == null ||
+        double.parse(value) > bankAccountLoan.result.loanLimit) {
       error.amount = 'Cannot be blank';
       return;
     } else {
       error.amount = null;
     }
   }
+
   @action
   Future validateStepTwo(String value) async {
     if (value.isEmpty || value == null) {
@@ -78,28 +77,26 @@ abstract class _BorrowStore with Store {
   }
 
   completeScreen({String currentScreen, String nextScreen}) {
-    if (currentScreen == '0') {
-      validateAmount(amount);
-    } else if (currentScreen == '1') {
-      validateStepTwo(stepTwo);
+    switch (currentScreen) {
+      case '0':
+        {
+          validateAmount(amount);
+        }
+        break;
+      case '1':
+        {
+          validateStepTwo(stepTwo);
+        }
+        break;
     }
-    if(error.amount == null && error.stepTwo == null) {
+    if (error.amount == null && error.stepTwo == null) {
       currentPage = nextScreen;
     }
   }
 
-//  validateStepStartAndGoToSecond(nextScreen) {
-//    validateAmount(amount);
-//    if(amount != '') {
-//      currentPage(nextScreen);
-//    }
-//  }
-//  validateStepTwoAndGoToThree(context, callback) {
-//    validateStepTwo(stepTwo);
-//    if(stepTwo != '') {
-//      callback(EnumFlowScreens.third);
-//    }
-//  }
+  toPreviousScreen({String currentScreen, String nextScreen}) {
+    currentPage = nextScreen;
+  }
 }
 
 class BorrowErrorState = _BorrowErrorState with _$BorrowErrorState;

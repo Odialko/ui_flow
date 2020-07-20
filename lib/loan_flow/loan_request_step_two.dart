@@ -9,47 +9,56 @@ class LoanRequestStepTwo extends StatefulWidget {
 
 class _LoanRequestStepTwoState extends State<LoanRequestStepTwo> {
   BorrowStore store;
+  TextEditingController stepTwoInputController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     store = Provider.of<BorrowStore>(context);
     store.setupValidations();
 
+    if (store.stepTwo != null && store.stepTwo != '') {
+      setState(() {
+        stepTwoInputController.text = store.stepTwo;
+      });
+    }
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Start')),
-      body: Column(
-        children: [
-          Observer(
-            builder: (_) => TextField(
-              onChanged: (value) => store.stepTwo = value,
-              decoration: InputDecoration(
-                  labelText: 'Amount',
-                  hintText: 'Pick a Amount',
-                  errorText: store.error.stepTwo),
+      appBar: AppBar(
+        title: const Text('Start'),
+        leading: IconButton(
+          tooltip: 'Previous choice',
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            store.toPreviousScreen(currentScreen: '1', nextScreen: '0');
+          },
+        ),
+      ),
+      body: Container(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Observer(
+              builder: (_) => TextField(
+                controller: stepTwoInputController,
+                onChanged: (value) => store.stepTwo = value,
+                decoration: InputDecoration(
+                    labelText: 'Amount',
+                    hintText: 'Pick a Amount',
+                    errorText: store.error.stepTwo),
+              ),
             ),
-          ),
-          Text(
-            store.amount,
-            style: TextStyle(color: Colors.white, fontSize: 28.0),
-          ),
-          RaisedButton(
-            child: const Text('Go to ...'),
-            onPressed: () {
-              store.completeScreen(currentScreen: '1', nextScreen: '2');
-//              store.validateStepTwoAndGoToThree(context, widget.callback);
-            },
-          ),
-//          Padding(
-//            padding: const EdgeInsets.symmetric(vertical: 16.0),
-//            child: RaisedButton(
-//              onPressed: () {
-//                store.validateStepTwo('value from the second Step');
-//                store.validateStepTwoAndGoToThree(context, widget.callback);
-//              },
-//              child: Text('to page Three'),
-//            ),
-//          ),
-        ],
+            Text(
+              store.amount,
+              style: TextStyle(color: Colors.white, fontSize: 28.0),
+            ),
+            RaisedButton(
+              child: const Text('Go to ...'),
+              onPressed: () {
+                store.completeScreen(currentScreen: '1', nextScreen: '2');
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
