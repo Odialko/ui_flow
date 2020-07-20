@@ -4,14 +4,8 @@ import 'package:uiflow/loan_flow/borrow_store.dart';
 import 'package:provider/provider.dart';
 
 class LoanRequestStepTwo extends StatefulWidget {
-  final Function callback;
-
-  const LoanRequestStepTwo({Key key, this.callback})
-      : super(key: key);
-
   _LoanRequestStepTwoState createState() => _LoanRequestStepTwoState();
 }
-
 
 class _LoanRequestStepTwoState extends State<LoanRequestStepTwo> {
   BorrowStore store;
@@ -36,10 +30,7 @@ class _LoanRequestStepTwoState extends State<LoanRequestStepTwo> {
           ),
           Text(
             store.amount,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 28.0
-            ),
+            style: TextStyle(color: Colors.white, fontSize: 28.0),
           ),
           RaisedButton(
             child: const Text('Go to ...'),
