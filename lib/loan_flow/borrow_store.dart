@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:uiflow/loan_flow/bank_account_repository.dart';
-import 'package:uiflow/loan_flow/flow_manager.dart';
 import 'package:uiflow/model/bank_account.dart';
 
 part 'borrow_store.g.dart';
@@ -24,6 +23,12 @@ abstract class _BorrowStore with Store {
         bankAccountRepository.getAccountLoan("100"));
     return bankAccountLoan;
   }
+
+  ///---------------
+  @observable
+  String currentPageId = '0';
+
+  void set currentPage(String pageId) => currentPageId = pageId;
 
 
 
@@ -72,18 +77,29 @@ abstract class _BorrowStore with Store {
     }
   }
 
-  validateStepStartAndGoToSecond(context, callback) {
-    validateAmount(amount);
-    if(amount != '') {
-      callback(EnumFlowScreens.second);
+  completeScreen({String currentScreen, String nextScreen}) {
+    if (currentScreen == '0') {
+      validateAmount(amount);
+    } else if (currentScreen == '1') {
+      validateStepTwo(stepTwo);
+    }
+    if(error.amount == null && error.stepTwo == null) {
+      currentPage = nextScreen;
     }
   }
-  validateStepTwoAndGoToThree(context, callback) {
-    validateStepTwo(stepTwo);
-    if(stepTwo != '') {
-      callback(EnumFlowScreens.third);
-    }
-  }
+
+//  validateStepStartAndGoToSecond(nextScreen) {
+//    validateAmount(amount);
+//    if(amount != '') {
+//      currentPage(nextScreen);
+//    }
+//  }
+//  validateStepTwoAndGoToThree(context, callback) {
+//    validateStepTwo(stepTwo);
+//    if(stepTwo != '') {
+//      callback(EnumFlowScreens.third);
+//    }
+//  }
 }
 
 class BorrowErrorState = _BorrowErrorState with _$BorrowErrorState;

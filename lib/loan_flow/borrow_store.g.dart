@@ -24,6 +24,21 @@ mixin _$BorrowStore on _BorrowStore, Store {
     });
   }
 
+  final _$currentPageIdAtom = Atom(name: '_BorrowStore.currentPageId');
+
+  @override
+  String get currentPageId {
+    _$currentPageIdAtom.reportRead();
+    return super.currentPageId;
+  }
+
+  @override
+  set currentPageId(String value) {
+    _$currentPageIdAtom.reportWrite(value, super.currentPageId, () {
+      super.currentPageId = value;
+    });
+  }
+
   final _$amountAtom = Atom(name: '_BorrowStore.amount');
 
   @override
@@ -87,6 +102,7 @@ mixin _$BorrowStore on _BorrowStore, Store {
   String toString() {
     return '''
 bankAccountLoan: ${bankAccountLoan},
+currentPageId: ${currentPageId},
 amount: ${amount},
 stepTwo: ${stepTwo}
     ''';

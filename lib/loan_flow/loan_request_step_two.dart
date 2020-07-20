@@ -44,7 +44,8 @@ class _LoanRequestStepTwoState extends State<LoanRequestStepTwo> {
           RaisedButton(
             child: const Text('Go to ...'),
             onPressed: () {
-              store.validateStepTwoAndGoToThree(context, widget.callback);
+              store.completeScreen(currentScreen: '1', nextScreen: '2');
+//              store.validateStepTwoAndGoToThree(context, widget.callback);
             },
           ),
 //          Padding(

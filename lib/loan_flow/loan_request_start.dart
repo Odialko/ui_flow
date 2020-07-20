@@ -18,20 +18,10 @@ class _LoanRequestStartState extends State<LoanRequestStart> {
 
   BorrowStore store;
 
-//  @override
-//  void initState() {
-//    super.initState();
-//
-//  }
-
-//  @override
-//  void dispose() {
-//    store.dispose();
-//    super.dispose();
-//  }
-
   @override
   Widget build(BuildContext context) {
+    const String nexScreen = '1';
+
     store = Provider.of<BorrowStore>(context);
     store.getBankAccountLoan();
     store.setupValidations();
@@ -57,22 +47,9 @@ class _LoanRequestStartState extends State<LoanRequestStart> {
                 RaisedButton(
                   child: const Text('Go ahead'),
                   onPressed: () {
-                    store.validateStepStartAndGoToSecond(context, widget.callback);
+                    store.completeScreen(currentScreen: '0', nextScreen: '1');
                   },
                 ),
-//                Observer(
-//                  builder: (context) => Column(
-//                    children: [
-//                      if (future.status == FutureStatus.fulfilled)
-//                        Text(
-//                          future.result.loanLimit.toString(),
-//                          style: TextStyle(
-//                            fontSize: 22.0
-//                          ),
-//                        )
-//                    ],
-//                  ),
-//                )
               ],
             ),
           ),
