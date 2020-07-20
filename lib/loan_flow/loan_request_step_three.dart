@@ -4,20 +4,29 @@ import 'package:provider/provider.dart';
 import 'package:uiflow/loan_flow/borrow_store.dart';
 
 class LoanRequestStepThree extends StatelessWidget {
-  BorrowStore store;
+  static const String screenId = '2';
+
   @override
   Widget build(BuildContext context) {
+    BorrowStore store;
+
     store = Provider.of<BorrowStore>(context);
     store.setupValidations();
+    final currentScreenIndex = store.currentScreenIndex;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flow'),
+        title: const Text('Step three'),
         leading: IconButton(
           tooltip: 'Previous choice',
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            store.toPreviousScreen(currentScreen: '2', nextScreen: '1');
+            currentScreenIndex == '0'
+                ? Navigator.of(context).popUntil((route) => route.isFirst)
+                : store.completeCurrentAndBack(currentScreen: currentScreenIndex,
+                previousScreen: previousScreen(currentScreenIndex),
+                screenId: screenId
+            );
           },
         ),
       ),
@@ -56,5 +65,8 @@ class LoanRequestStepThree extends StatelessWidget {
         child: Icon(Icons.label_important),
       ),
     );
+  }
+  String previousScreen(String currentScreenIndex) {
+    return (int.parse(currentScreenIndex) - 1).toString();
   }
 }

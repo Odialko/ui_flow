@@ -26,9 +26,9 @@ abstract class _BorrowStore with Store {
 
   ///---------------
   @observable
-  String currentPageId = '0';
+  String currentScreenIndex = '0';
 
-  void set currentPage(String pageId) => currentPageId = pageId;
+  void set currentScreen(String screenIndex) => currentScreenIndex = screenIndex;
 
   ///----------------------------------------------------------------
   final BorrowErrorState error = BorrowErrorState();
@@ -76,8 +76,8 @@ abstract class _BorrowStore with Store {
     }
   }
 
-  completeScreen({String currentScreen, String nextScreen}) {
-    switch (currentScreen) {
+  completeScreen({String currentScreen, String nextScreen, String screenId}) {
+    switch (screenId) {
       case '0':
         {
           validateAmount(amount);
@@ -90,12 +90,24 @@ abstract class _BorrowStore with Store {
         break;
     }
     if (error.amount == null && error.stepTwo == null) {
-      currentPage = nextScreen;
+      currentScreenIndex = nextScreen;
     }
   }
 
-  toPreviousScreen({String currentScreen, String nextScreen}) {
-    currentPage = nextScreen;
+  completeCurrentAndBack({String currentScreen, String previousScreen, String screenId}) {
+//    switch (screenId) {
+//      case '0':
+//        {
+//          amount = '';
+//        }
+//        break;
+//      case '1':
+//        {
+//          stepTwo = '';
+//        }
+//        break;
+//    }
+    currentScreenIndex = previousScreen;
   }
 }
 

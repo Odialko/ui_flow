@@ -8,16 +8,18 @@ class LoanRequestStart extends StatefulWidget {
 }
 
 class _LoanRequestStartState extends State<LoanRequestStart> {
-//  final _formKey = GlobalKey<FormState>();
+  static const String screenId = '0';
   TextEditingController myAmount = TextEditingController();
-  BorrowStore store;
 
   @override
   Widget build(BuildContext context) {
+    BorrowStore store;
+
     store = Provider.of<BorrowStore>(context);
     store.getBankAccountLoan();
     store.setupValidations();
 
+    final currentScreenIndex = store.currentScreenIndex;
     if (store.amount != null && store.amount != '') {
       setState(() {
         myAmount.text = store.amount;
@@ -25,12 +27,17 @@ class _LoanRequestStartState extends State<LoanRequestStart> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Start'),
+        title: const Text('Step Start'),
         leading: IconButton(
           tooltip: 'Previous choice',
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).popUntil((route) => route.isFirst);
+            currentScreenIndex == '0'
+                ? Navigator.of(context).popUntil((route) => route.isFirst)
+                : store.completeCurrentAndBack(
+                    currentScreen: currentScreenIndex,
+                    previousScreen: previousScreen(currentScreenIndex),
+                    screenId: screenId);
           },
         ),
       ),
@@ -53,7 +60,13 @@ class _LoanRequestStartState extends State<LoanRequestStart> {
               RaisedButton(
                 child: const Text('Go ahead'),
                 onPressed: () {
-                  store.completeScreen(currentScreen: '0', nextScreen: '1');
+                  print('currentScreenIndex ${currentScreenIndex}');
+                  print('nextScreen ${nextScreen(currentScreenIndex)}');
+                  print('screenId ${screenId}');
+                  store.completeScreen(
+                      currentScreen: currentScreenIndex,
+                      nextScreen: nextScreen(currentScreenIndex),
+                      screenId: screenId);
                 },
               ),
             ],
@@ -61,5 +74,13 @@ class _LoanRequestStartState extends State<LoanRequestStart> {
         ),
       ),
     );
+  }
+
+  String nextScreen(String currentScreenIndex) {
+    return (int.parse(currentScreenIndex) + 1).toString();
+  }
+
+  String previousScreen(String currentScreenIndex) {
+    return (int.parse(currentScreenIndex) - 1).toString();
   }
 }

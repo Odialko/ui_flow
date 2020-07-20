@@ -8,13 +8,16 @@ class LoanRequestStepTwo extends StatefulWidget {
 }
 
 class _LoanRequestStepTwoState extends State<LoanRequestStepTwo> {
-  BorrowStore store;
+  static const String screenId = '1';
   TextEditingController stepTwoInputController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    BorrowStore store;
     store = Provider.of<BorrowStore>(context);
     store.setupValidations();
+
+    final currentScreenIndex = store.currentScreenIndex;
 
     if (store.stepTwo != null && store.stepTwo != '') {
       setState(() {
@@ -24,12 +27,17 @@ class _LoanRequestStepTwoState extends State<LoanRequestStepTwo> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Start'),
+        title: const Text('Step two'),
         leading: IconButton(
           tooltip: 'Previous choice',
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            store.toPreviousScreen(currentScreen: '1', nextScreen: '0');
+            currentScreenIndex == '0'
+                ? Navigator.of(context).popUntil((route) => route.isFirst)
+                : store.completeCurrentAndBack(currentScreen: currentScreenIndex,
+                previousScreen: previousScreen(currentScreenIndex),
+                screenId: screenId
+            );
           },
         ),
       ),
@@ -54,12 +62,25 @@ class _LoanRequestStepTwoState extends State<LoanRequestStepTwo> {
             RaisedButton(
               child: const Text('Go to ...'),
               onPressed: () {
-                store.completeScreen(currentScreen: '1', nextScreen: '2');
+                print('page 2 currentScreenIndex ${currentScreenIndex}');
+                print('page 2 nextScreen ${nextScreen(currentScreenIndex)}');
+                print('page 2 screenId ${screenId}');
+                store.completeScreen(
+                    currentScreen: currentScreenIndex,
+                    nextScreen: nextScreen(currentScreenIndex),
+                    screenId: screenId);
+
               },
             ),
           ],
         ),
       ),
     );
+  }
+  String nextScreen(String currentScreenIndex) {
+    return (int.parse(currentScreenIndex) + 1).toString();
+  }
+  String previousScreen(String currentScreenIndex) {
+    return (int.parse(currentScreenIndex) - 1).toString();
   }
 }
