@@ -3,23 +3,19 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:uiflow/loan_flow/borrow_store.dart';
 import 'package:provider/provider.dart';
 
-class LoanRequestStepTwo extends StatefulWidget {
-  _LoanRequestStepTwoState createState() => _LoanRequestStepTwoState();
-}
+///the same description as at LoanRequestStart();
 
-class _LoanRequestStepTwoState extends State<LoanRequestStepTwo> {
-  static const String screenId = '1';
-  TextEditingController stepTwoInputController = TextEditingController();
+class LoanRequestStepTwo extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
     BorrowStore store = Provider.of<BorrowStore>(context);
-    final currentScreenIndex = store.currentScreenIndex;
+    final int currentScreenIndex = store.currentScreenIndex;
+    TextEditingController stepTwoInputController = TextEditingController();
 
+    ///if in the Store we have data
     if (store.stepTwo != null && store.stepTwo != '') {
-      setState(() {
-        stepTwoInputController.text = store.stepTwo;
-      });
+      stepTwoInputController.text = store.stepTwo;
     }
 
     return Scaffold(
@@ -29,12 +25,11 @@ class _LoanRequestStepTwoState extends State<LoanRequestStepTwo> {
           tooltip: 'Previous choice',
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            currentScreenIndex == '0'
+            currentScreenIndex == 0
                 ? Navigator.of(context).popUntil((route) => route.isFirst)
-                : store.completeScreen(
+                : store.changeScreen(
                     currentScreen: currentScreenIndex,
-                    nextScreen: previousScreen(currentScreenIndex),
-                    screenId: screenId);
+                    nextScreen: false);
           },
         ),
       ),
@@ -59,23 +54,13 @@ class _LoanRequestStepTwoState extends State<LoanRequestStepTwo> {
             RaisedButton(
               child: const Text('Go to ...'),
               onPressed: () {
-                store.completeScreen(
-                    currentScreen: currentScreenIndex,
-                    nextScreen: nextScreen(currentScreenIndex),
-                    screenId: screenId);
+                store.changeScreen(
+                    currentScreen: currentScreenIndex);
               },
             ),
           ],
         ),
       ),
     );
-  }
-
-  String nextScreen(String currentScreenIndex) {
-    return (int.parse(currentScreenIndex) + 1).toString();
-  }
-
-  String previousScreen(String currentScreenIndex) {
-    return (int.parse(currentScreenIndex) - 1).toString();
   }
 }

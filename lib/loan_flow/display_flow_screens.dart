@@ -8,25 +8,29 @@ import 'package:uiflow/loan_flow/loan_request_step_three.dart';
 import 'package:uiflow/loan_flow/loan_request_step_two.dart';
 
 class DisplayFlowScreens extends StatelessWidget {
-  final Map<String, Widget> screens = {
-    '0': LoanRequestStart(),
-    '1': LoanRequestStepTwo(),
-    '2': LoanRequestStepThree()
+  ///Block with test screens
+  ///we could pass any of this Map and we will have own validation for each screen
+  ///and we will be able to transition from 0 -> to 2 screen by screen
+  final Map<int, Widget> screens = {
+    0: LoanRequestStart(),
+    1: LoanRequestStepTwo(),
+    2: LoanRequestStepThree()
   };
 
-  final Map<String, Widget> screensSecondVariant = {
-    '0': LoanRequestStepTwo(),
-    '1': LoanRequestStart(),
-    '2': LoanRequestStepThree()
+  final Map<int, Widget> screensSecondVariant = {
+    0: LoanRequestStepTwo(),
+    1: LoanRequestStart(),
+    2: LoanRequestStepThree()
   };
-
 
   @override
   Widget build(BuildContext context) {
     final BorrowStore store = BorrowStore(
       bankAccountRepository: BankAccountRepository(),
     );
+    ///activate bank account
     store.getBankAccountLoan();
+    ///call setupValidations() for validation onchange
     store.setupValidations();
 
     return MultiProvider(
@@ -37,6 +41,7 @@ class DisplayFlowScreens extends StatelessWidget {
         ],
         child: Observer(
           builder: (_) => Container(
+            ///get needed screen by index
             child: screens[store.currentScreenIndex],
           ),
         ),

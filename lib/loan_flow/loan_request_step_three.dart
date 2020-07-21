@@ -3,13 +3,14 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:uiflow/loan_flow/borrow_store.dart';
 
+///the same description as at LoanRequestStart();
+///
 class LoanRequestStepThree extends StatelessWidget {
-  static const String screenId = '2';
 
   @override
   Widget build(BuildContext context) {
     BorrowStore store = Provider.of<BorrowStore>(context);
-    final currentScreenIndex = store.currentScreenIndex;
+    final int currentScreenIndex = store.currentScreenIndex;
 
     return Scaffold(
       appBar: AppBar(
@@ -18,12 +19,10 @@ class LoanRequestStepThree extends StatelessWidget {
           tooltip: 'Previous choice',
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            currentScreenIndex == '0'
+            currentScreenIndex == 0
                 ? Navigator.of(context).popUntil((route) => route.isFirst)
-                : store.completeScreen(currentScreen: currentScreenIndex,
-                nextScreen: previousScreen(currentScreenIndex),
-                screenId: screenId
-            );
+                : store.changeScreen(
+                    currentScreen: currentScreenIndex, nextScreen: false);
           },
         ),
       ),
@@ -62,9 +61,5 @@ class LoanRequestStepThree extends StatelessWidget {
         child: Icon(Icons.label_important),
       ),
     );
-  }
-
-  String previousScreen(String currentScreenIndex) {
-    return (int.parse(currentScreenIndex) - 1).toString();
   }
 }

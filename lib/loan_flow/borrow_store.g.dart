@@ -28,13 +28,13 @@ mixin _$BorrowStore on _BorrowStore, Store {
       Atom(name: '_BorrowStore.currentScreenIndex');
 
   @override
-  String get currentScreenIndex {
+  int get currentScreenIndex {
     _$currentScreenIndexAtom.reportRead();
     return super.currentScreenIndex;
   }
 
   @override
-  set currentScreenIndex(String value) {
+  set currentScreenIndex(int value) {
     _$currentScreenIndexAtom.reportWrite(value, super.currentScreenIndex, () {
       super.currentScreenIndex = value;
     });

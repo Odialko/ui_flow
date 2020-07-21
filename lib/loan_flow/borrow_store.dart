@@ -7,7 +7,10 @@ part 'borrow_store.g.dart';
 
 class BorrowStore = _BorrowStore with _$BorrowStore;
 
+enum ScreenType { start, second, third }
+
 abstract class _BorrowStore with Store {
+  ///Common part of MobX Store
   _BorrowStore({@required this.bankAccountRepository})
       : assert(bankAccountRepository != null,
             "'bankAccountRepository' cannot be null for BorrowStore");
@@ -25,18 +28,35 @@ abstract class _BorrowStore with Store {
   }
 
   ///---------------
+  ///Part to display the desired screen
   @observable
-  String currentScreenIndex = '0';
+  int currentScreenIndex = 0;
 
-  void set currentScreen(String screenIndex) =>
-      currentScreenIndex = screenIndex;
+  void set currentScreen(int screenIndex) => currentScreenIndex = screenIndex;
 
-  ///----------------------------------------------------------------
+  changeScreen({int currentScreen, bool nextScreen = true}) {
+    if (error.amount == null && error.stepTwo == null && nextScreen) {
+      currentScreenIndex++;
+    } else if (!nextScreen) {
+      ///if we are going back all validation make equal null
+      error.amount = null;
+      error.stepTwo = null;
+      currentScreenIndex--;
+    }
+  }
+
+  ///--------------
+  ///Part to validate each screen separately.
+  ///all variables and all validation logic
+  ///for each screen should be described separately
+  ///
   final BorrowErrorState error = BorrowErrorState();
 
+  ///variable for LoanRequestStart()
   @observable
   String amount = '';
 
+  ///variable for LoanRequestStepTwo()
   @observable
   String stepTwo = '';
 
@@ -49,6 +69,7 @@ abstract class _BorrowStore with Store {
     ];
   }
 
+  ///validation for the LoanRequestStart()
   @action
   Future validateAmount(String value) async {
     if (value.isEmpty || value == null) {
@@ -62,6 +83,7 @@ abstract class _BorrowStore with Store {
     }
   }
 
+  ///validation for the LoanRequestStepTwo()
   @action
   Future validateStepTwo(String value) async {
     if (value.isEmpty || value == null) {
@@ -78,23 +100,22 @@ abstract class _BorrowStore with Store {
     }
   }
 
-  completeScreen({String currentScreen, String nextScreen, String screenId}) {
-    switch (screenId) {
-      case '0':
+  ///call validation function when we need it to move forward with valid data
+  ///for the arrow back it not needed
+  validateScreen(ScreenType screenType) {
+    switch (screenType) {
+      case ScreenType.start:
         {
           validateAmount(amount);
         }
         break;
-      case '1':
+      case ScreenType.second:
         {
           validateStepTwo(stepTwo);
         }
         break;
       default:
         break;
-    }
-    if (error.amount == null && error.stepTwo == null) {
-      currentScreenIndex = nextScreen;
     }
   }
 }
