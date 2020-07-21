@@ -20,39 +20,26 @@ class DisplayFlowScreens extends StatelessWidget {
     '2': LoanRequestStepThree()
   };
 
+
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        Provider<BorrowStore>(
-          create: (_) => BorrowStore(
-            bankAccountRepository: BankAccountRepository(),
-          ),
-        ),
-      ],
-      child: FlowScreens(flowScreens: screens,),
+    final BorrowStore store = BorrowStore(
+      bankAccountRepository: BankAccountRepository(),
     );
-  }
-}
-
-class FlowScreens extends StatelessWidget {
-  final flowScreens;
-
-  const FlowScreens({Key key, this.flowScreens}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    BorrowStore store;
-
-    store = Provider.of<BorrowStore>(context);
     store.getBankAccountLoan();
     store.setupValidations();
 
-    return Observer(
-      builder: (_) => Container(
-        child: flowScreens[store.currentScreenIndex],
-      ),
+    return MultiProvider(
+        providers: [
+          Provider<BorrowStore>(
+            create: (_) => store,
+          ),
+        ],
+        child: Observer(
+          builder: (_) => Container(
+            child: screens[store.currentScreenIndex],
+          ),
+        ),
     );
   }
 }
-
