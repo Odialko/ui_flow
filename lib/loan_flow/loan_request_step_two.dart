@@ -54,6 +54,7 @@ class LoanRequestStepTwo extends StatelessWidget{
             RaisedButton(
               child: const Text('Go to ...'),
               onPressed: () {
+                store.validateScreen(ScreenType.second);
                 store.changeScreen(
                     currentScreen: currentScreenIndex);
               },

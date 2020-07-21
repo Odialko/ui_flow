@@ -42,7 +42,7 @@ class DisplayFlowScreens extends StatelessWidget {
         child: Observer(
           builder: (_) => Container(
             ///get needed screen by index
-            child: screens[store.currentScreenIndex],
+            child: screensSecondVariant[store.currentScreenIndex],
           ),
         ),
     );
