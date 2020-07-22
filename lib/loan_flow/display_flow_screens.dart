@@ -28,23 +28,21 @@ class DisplayFlowScreens extends StatelessWidget {
     final BorrowStore store = BorrowStore(
       bankAccountRepository: BankAccountRepository(),
     );
+
     ///activate bank account
     store.getBankAccountLoan();
+
     ///call setupValidations() for validation onchange
     store.setupValidations();
 
-    return MultiProvider(
-        providers: [
-          Provider<BorrowStore>(
-            create: (_) => store,
-          ),
-        ],
-        child: Observer(
-          builder: (_) => Container(
-            ///get needed screen by index
-            child: screensSecondVariant[store.currentScreenIndex],
-          ),
+    return Provider<BorrowStore>(
+      create: (_) => store,
+      child: Observer(
+        builder: (_) => Container(
+          ///get needed screen by index
+          child: screensSecondVariant[store.currentScreenIndex],
         ),
+      ),
     );
   }
 }
