@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
-import 'package:uiflow/loan_flow/bank_account_repository.dart';
+import 'file:///C:/Users/vikto/app/ui_flow/lib/repo/bank_account_repository.dart';
 import 'package:uiflow/model/bank_account.dart';
 
 part 'borrow_store.g.dart';
